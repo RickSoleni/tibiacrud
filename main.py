@@ -8,18 +8,17 @@ from services import (
     read_all_service,
     update_service,
 )
-from bson import ObjectId
 
 app = FastAPI()
 
 
 @app.get('/')
 def hello_world():
-    return {'Tiba': 'Rickera OT Server'}
+    return {'Tibia': 'Rickera OT Server'}
 
 
 @app.post('/players')
-def create_player(player: PlayerInOutSchema):
+def create_player(player: PlayerInOutSchema) -> JSONResponse:
     create = create_service(player)
     if not create:
         return JSONResponse({'Message': 'Player Creation Error'}, 500)
@@ -27,7 +26,7 @@ def create_player(player: PlayerInOutSchema):
 
 
 @app.get('/player/{player_id}')
-def find_player(player_id: str):
+def find_player(player_id: str) -> JSONResponse:
     read = read_service(player_id)
     if not read:
         return JSONResponse({'Message': 'Player Not Found'}, 404)
@@ -35,16 +34,16 @@ def find_player(player_id: str):
 
 
 @app.get('/players')
-def find_players():
+def find_players() -> JSONResponse:
     read_all = read_all_service()
     if not read_all:
         return JSONResponse({'Message': 'Players Not Found'}, 404)
-    return read_all
+    return JSONResponse({'Players': read_all}, 200)
 
 
-@app.put('/player/{nickname}')
-def modify_player(nickname, player: PlayerModifySchema):
-    update = update_service(nickname, player)
+@app.put('/player/{player_id}')
+def modify_player(player_id, update_player: PlayerModifySchema):
+    update = update_service(player_id, update_player)
     if not update:
         return JSONResponse({'Message': 'Error while reading database'}, 404)
     return JSONResponse({'Message': 'Player Modified'}, 200)
