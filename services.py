@@ -17,9 +17,7 @@ def read_all_service() -> list[dict]:
 
 
 def update_service(player_id: str, update_data) -> int:
-    modified_count = db.update(
-        player_id, update_data.dict(exclude_unset=True)
-    )
+    modified_count = db.update(player_id, update_data.dict(exclude_unset=True))
     return modified_count
 
 

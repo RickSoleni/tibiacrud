@@ -12,6 +12,11 @@ class Database:
         self.players_collection = self.database['players']
 
     def create(self, values: dict) -> str:
+        nickname_count = self.players_collection.count_documents(
+            {'nickname': values['nickname']}
+        )
+        if nickname_count > 0:
+            return
         return str(self.players_collection.insert_one(values).inserted_id)
 
     def read(self, player_id: str) -> dict:
