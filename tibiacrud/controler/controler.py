@@ -1,4 +1,4 @@
-from database import db
+from tibiacrud.data.mongo import db
 
 
 def create_service(player) -> str:
