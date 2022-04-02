@@ -8,7 +8,7 @@ class PlayerInOutSchema(BaseModel):
 
 
 class PlayersOutSchema(BaseModel):
-    pĺayers: list[PlayerInOutSchema]
+    players: list[PlayerInOutSchema]
 
 
 class PlayerModifySchema(BaseModel):
