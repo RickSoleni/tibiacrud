@@ -1,6 +1,11 @@
+# production
+
 fastapi
 pymongo
-pytest
 uvicorn
-requests
 bson
+
+# tests
+faker
+pytest
+requests
