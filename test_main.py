@@ -1,7 +1,7 @@
 import pytest
 from starlette.testclient import TestClient
 from main import app
-from bson import ObjectId
+
 
 teste = TestClient(app)
 
@@ -52,7 +52,7 @@ def test_get_player_with_a_valid_id():
 
 def test_get_player_with_a_invalid_nickname():
 
-    player_id = ObjectId('0123456789ab0123456789ab')
+    player_id = '0123456789ab0123456789ab'
     get_player = teste.get(f'/player/{player_id}')
     get_player_json = get_player.json()
 
@@ -80,7 +80,7 @@ def test_put_with_a_valid_nickname():
 
 def test_put_with_a_invalid_nickname():
 
-    player_id = ObjectId('0123456789ab0123456789ab')
+    player_id = '0123456789ab0123456789ab'
     get_player = teste.get(f'/player/{player_id}')
     get_player_json = get_player.json()
     assert get_player.status_code == 404
@@ -115,7 +115,7 @@ def test_delete_with_a_valid_nickname():
 
 def test_delete_with_a_invalid_nickname():
 
-    player_id = ObjectId('0123456789ab0123456789ab')
+    player_id = '0123456789ab0123456789ab'
     get_player = teste.get(f'/player/{player_id}')
     assert not get_player
 
