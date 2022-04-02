@@ -1,12 +1,8 @@
 from pymongo import MongoClient
 from bson import ObjectId
 
-
-client = MongoClient('mongodb://root:MongoDB2019!@127.0.0.1:27017')
-
-
 class Database:
-    def __init__(self) -> None:
+    def __init__(self, client) -> None:
         self.client = client
         self.database = self.client['tibiacrud']
         self.players_collection = self.database['players']
@@ -33,6 +29,12 @@ class Database:
         return players
 
     def update(self, player_id: str, update_data: dict) -> int:
+        nickname_count = self.players_collection.count_documents(
+            {'nickname': update_data['nickname']}
+        )
+        if nickname_count > 0:
+            return
+            
         player_id = ObjectId(player_id)
         return self.players_collection.update_one(
             {'_id': player_id}, {'$set': update_data}
@@ -45,4 +47,5 @@ class Database:
         ).deleted_count
 
 
-db = Database()
+client = MongoClient('mongodb://root:MongoDB2019!@127.0.0.1:27017')
+db = Database(client=client)
