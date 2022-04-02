@@ -1,23 +1,21 @@
-from models import PlayerInOutSchema, PlayerModifySchema
-from fastapi import FastAPI
+from tibiacrud.models.models import (
+    PlayerInOutSchema,
+    PlayerModifySchema,
+)
 from starlette.responses import JSONResponse
-from services import (
+from tibiacrud.controler.controler import (
     create_service,
     delete_service,
     read_service,
     read_all_service,
     update_service,
 )
+from fastapi import APIRouter
 
-app = FastAPI()
-
-
-@app.get('/')
-def hello_world():
-    return {'Tibia': 'Rickera OT Server'}
+player_router = APIRouter()
 
 
-@app.post('/players')
+@player_router.post('/players')
 def create_player(player: PlayerInOutSchema) -> JSONResponse:
     create = create_service(player)
     if not create:
@@ -25,7 +23,7 @@ def create_player(player: PlayerInOutSchema) -> JSONResponse:
     return JSONResponse({'Message': 'Player Created', '_id': create}, 201)
 
 
-@app.get('/player/{player_id}')
+@player_router.get('/player/{player_id}')
 def find_player(player_id: str) -> JSONResponse:
     read = read_service(player_id)
     if not read:
@@ -33,7 +31,7 @@ def find_player(player_id: str) -> JSONResponse:
     return PlayerInOutSchema(**read)
 
 
-@app.get('/players')
+@player_router.get('/players')
 def find_players() -> JSONResponse:
     read_all = read_all_service()
     if not read_all:
@@ -41,7 +39,7 @@ def find_players() -> JSONResponse:
     return JSONResponse({'Players': read_all}, 200)
 
 
-@app.put('/player/{player_id}')
+@player_router.put('/player/{player_id}')
 def modify_player(player_id, update_player: PlayerModifySchema):
     update = update_service(player_id, update_player)
     if not update:
@@ -49,7 +47,7 @@ def modify_player(player_id, update_player: PlayerModifySchema):
     return JSONResponse({'Message': 'Player Modified'}, 200)
 
 
-@app.delete('/player/{player_id}')
+@player_router.delete('/player/{player_id}')
 def delete_player(player_id: str):
     delete = delete_service(player_id)
     if not delete:

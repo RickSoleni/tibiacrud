@@ -1,6 +1,5 @@
-import pytest
 from starlette.testclient import TestClient
-from main import app
+from tibiacrud.main import app
 
 
 teste = TestClient(app)
