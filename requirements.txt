@@ -1,9 +1,9 @@
 # production
 
 fastapi
-pymongo
+pymongo[srv]
 uvicorn
-bson
+
 
 # tests
 faker
