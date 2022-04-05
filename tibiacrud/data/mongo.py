@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 from bson import ObjectId
+import os 
 
+mongodb_uri = os.getenv('MONGODB_URI')
 class Database:
     def __init__(self, client) -> None:
         self.client = client
@@ -46,6 +48,8 @@ class Database:
             {'_id': player_id}
         ).deleted_count
 
-
-client = MongoClient('mongodb://root:MongoDB2019!@127.0.0.1:27017')
+if mongodb_uri:
+    client = MongoClient(mongodb_uri)
+else:
+    client = MongoClient('mongodb://root:MongoDB2019!@127.0.0.1:27017')
 db = Database(client=client)
